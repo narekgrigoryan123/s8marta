@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Մարտի 8, Յան) 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose: #e8637a;
+    --blush: #f5c2cc;
+    --petal: #fce8ed;
+    --cream: #fff9f5;
+    --gold: #c9956a;
+    --deep: #7a2d3e;
+    --soft: #f0d4da;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+  }
+
+  /* ── PETALS CANVAS ── */
+  #petals-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── MAIN WRAPPER ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px 60px;
+    gap: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: fadeDown 1s ease forwards 0.3s;
+  }
+
+  .date-badge {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--rose);
+    padding: 6px 18px;
+    border: 1px solid var(--blush);
+    border-radius: 40px;
+    margin-bottom: 18px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(8px);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 13vw, 82px);
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--deep);
+    text-shadow: 2px 4px 20px rgba(232,99,122,0.2);
+    margin-bottom: 4px;
+  }
+
+  h1 span {
+    color: var(--rose);
+    display: block;
+  }
+
+  .subtitle {
+    font-size: clamp(13px, 4vw, 17px);
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  /* ── BOUQUET ── */
+  .bouquet-wrap {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 20px auto 14px;
+    opacity: 0;
+    animation: popIn 0.9s cubic-bezier(.34,1.56,.64,1) forwards 0.8s;
+  }
+
+  .bouquet-wrap svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 12px 30px rgba(232,99,122,0.35));
+  }
+
+  /* floating glow */
+  .bouquet-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    background: radial-gradient(circle, rgba(248,180,195,0.5) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: glowPulse 3s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,210,220,0.6);
+    border-radius: 28px;
+    padding: 32px 28px 36px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow:
+      0 4px 20px rgba(232,99,122,0.1),
+      0 1px 0 rgba(255,255,255,0.9) inset;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 1s ease forwards 1.2s;
+    margin-bottom: 28px;
+  }
+
+  .card-header {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 7vw, 30px);
+    font-style: italic;
+    color: var(--deep);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .card-text {
+    font-size: clamp(15px, 4.5vw, 18px);
+    font-weight: 300;
+    line-height: 1.85;
+    color: #5a3040;
+    text-align: center;
+  }
+
+  .card-text em {
+    color: var(--rose);
+    font-style: italic;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    color: var(--blush);
+    font-size: 18px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blush), transparent);
+  }
+
+  /* ── WISHES GRID ── */
+  .wishes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 420px;
+    width: 100%;
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease forwards 1.7s;
+  }
+
+  .wish-card {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,200,215,0.5);
+    border-radius: 20px;
+    padding: 18px 14px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .wish-card:active {
+    transform: scale(0.97);
+  }
+
+  .wish-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 8px;
+    animation: wiggle 3s ease-in-out infinite;
+  }
+
+  .wish-card:nth-child(2) .wish-icon { animation-delay: 0.4s; }
+  .wish-card:nth-child(3) .wish-icon { animation-delay: 0.8s; }
+  .wish-card:nth-child(4) .wish-icon { animation-delay: 1.2s; }
+
+  .wish-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 4px;
+  }
+
+  .wish-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: #7a5060;
+    line-height: 1.5;
+  }
+
+  /* ── SIGNATURE ── */
+  .signature {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 2.2s;
+    text-align: center;
+  }
+
+  .signature-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 9vw, 40px);
+    font-style: italic;
+    color: var(--rose);
+    text-shadow: 0 2px 15px rgba(232,99,122,0.3);
+  }
+
+  .signature-sub {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 4px;
+  }
+
+  /* ── HEARTS BURST ── */
+  .hearts {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .heart-particle {
+    position: absolute;
+    font-size: 20px;
+    animation: heartFly 2s ease forwards;
+    opacity: 0;
+  }
+
+  /* ── TAP BUTTON ── */
+  .tap-btn {
+    margin-top: 30px;
+    background: linear-gradient(135deg, var(--rose), #c94e65);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(232,99,122,0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 2.5s;
+  }
+
+  .tap-btn:active {
+    transform: scale(0.96);
+  }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeDown {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+    60% { transform: scale(1.1) rotate(3deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-8deg) scale(1.1); }
+    75% { transform: rotate(8deg) scale(1.1); }
+  }
+  @keyframes heartFly {
+    0% { opacity: 1; transform: translateY(0) scale(0.5); }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.2); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-8px) rotate(5deg); }
+    66% { transform: translateY(-4px) rotate(-3deg); }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="petals-canvas"></canvas>
+
+<div class="page">
+
+  <div class="header">
+    <div class="date-badge">Մարտի 8 · 2026</div>
+    <h1>Շնորհավոր<span>Յանա!</span></h1>
+    <p class="subtitle">Գարնան տոնդ շնորհավոր 🌸</p>
+  </div>
+
+  <!-- SVG Bouquet -->
+  <div class="bouquet-wrap">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Leaves -->
+      <ellipse cx="85" cy="155" rx="14" ry="30" fill="#7ec87e" transform="rotate(-30 85 155)" opacity="0.85"/>
+      <ellipse cx="115" cy="155" rx="14" ry="30" fill="#6aba6a" transform="rotate(30 115 155)" opacity="0.85"/>
+      <ellipse cx="100" cy="160" rx="10" ry="25" fill="#8fd48f" opacity="0.7"/>
+      <!-- Stems -->
+      <path d="M90 155 Q95 135 88 110" stroke="#7ec87e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M100 158 Q100 140 100 115" stroke="#6aba6a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M110 155 Q105 135 112 110" stroke="#7ec87e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Back flowers -->
+      <g transform="translate(68,90)">
+        <circle cx="0" cy="-8" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="7" cy="-4" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="7" cy="4" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="0" cy="8" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="-7" cy="4" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="-7" cy="-4" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="0" cy="0" r="6" fill="#ffd166"/>
+      </g>
+      <g transform="translate(130,88)">
+        <circle cx="0" cy="-8" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="7" cy="-4" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="7" cy="4" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="0" cy="8" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="-7" cy="4" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="-7" cy="-4" r="7" fill="#f5b8c4" opacity="0.7"/>
+        <circle cx="0" cy="0" r="6" fill="#ffd166"/>
+      </g>
+      <!-- Center rose big -->
+      <g transform="translate(100,95)">
+        <circle cx="0" cy="-15" r="11" fill="#e8637a"/>
+        <circle cx="13" cy="-7" r="11" fill="#e06075"/>
+        <circle cx="13" cy="7" r="11" fill="#e8637a"/>
+        <circle cx="0" cy="15" r="11" fill="#e06075"/>
+        <circle cx="-13" cy="7" r="11" fill="#e8637a"/>
+        <circle cx="-13" cy="-7" r="11" fill="#e06075"/>
+        <circle cx="0" cy="0" r="13" fill="#e8637a"/>
+        <circle cx="0" cy="-6" r="8" fill="#d4566a"/>
+        <circle cx="5" cy="-2" r="8" fill="#d4566a"/>
+        <circle cx="3" cy="6" r="8" fill="#d4566a"/>
+        <circle cx="-4" cy="5" r="8" fill="#d4566a"/>
+        <circle cx="-5" cy="-3" r="8" fill="#d4566a"/>
+        <circle cx="0" cy="0" r="7" fill="#c94e62"/>
+        <circle cx="0" cy="0" r="3.5" fill="#b03d50"/>
+      </g>
+      <!-- Small accent flowers -->
+      <g transform="translate(78,72)">
+        <circle cx="0" cy="-5" r="5" fill="#fce8f0"/>
+        <circle cx="5" cy="-2" r="5" fill="#fce8f0"/>
+        <circle cx="5" cy="3" r="5" fill="#fce8f0"/>
+        <circle cx="0" cy="6" r="5" fill="#fce8f0"/>
+        <circle cx="-5" cy="3" r="5" fill="#fce8f0"/>
+        <circle cx="-5" cy="-2" r="5" fill="#fce8f0"/>
+        <circle cx="0" cy="0" r="4" fill="#ffd166"/>
+      </g>
+      <g transform="translate(122,70)">
+        <circle cx="0" cy="-5" r="5" fill="#fce8f0"/>
+        <circle cx="5" cy="-2" r="5" fill="#fce8f0"/>
+        <circle cx="5" cy="3" r="5" fill="#fce8f0"/>
+        <circle cx="0" cy="6" r="5" fill="#fce8f0"/>
+        <circle cx="-5" cy="3" r="5" fill="#fce8f0"/>
+        <circle cx="-5" cy="-2" r="5" fill="#fce8f0"/>
+        <circle cx="0" cy="0" r="4" fill="#ffd166"/>
+      </g>
+      <!-- Sparkles -->
+      <text x="150" y="55" font-size="14" fill="#ffd166" opacity="0.9" style="animation: wiggle 2s infinite;">✦</text>
+      <text x="42" y="68" font-size="10" fill="#e8637a" opacity="0.8">✦</text>
+      <text x="158" y="95" font-size="8" fill="#e8637a" opacity="0.7">✦</text>
+      <text x="35" y="115" font-size="11" fill="#ffd166" opacity="0.8">✦</text>
+    </svg>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Սիրելի Յանա ✨</div>
+    <p class="card-text">
+      Այս գարնանային օրը ցանկանում եմ, որ կյանքդ լինի <em>նույնքան վառ ու քնքուշ</em>, ինչպես մարտի սկզբի ծաղկած այգին։
+    </p>
+    <div class="divider">🌸</div>
+    <p class="card-text">
+      Դու արժանի ես միայն լավագույնին՝ <em>անկեղծ սիրուն</em>, անվերջ երջանկության և ջերմ պահերի, որոնք հոգին տաքացնում են անգամ ամպամած օրերին։
+    </p>
+    <div class="divider">🌸</div>
+    <p class="card-text">
+      Թող ամեն օր բերի ժպտալու պատճառ, իսկ երազները իրականանան <em>հեշտ ու գեղեցիկ</em>։ Շնորհավոր գարնան, շնորհավոր քո տոնը! 💕
+    </p>
+  </div>
+
+  <!-- Wishes grid -->
+  <div class="wishes">
+    <div class="wish-card">
+      <span class="wish-icon">💐</span>
+      <div class="wish-title">Счастье</div>
+      <div class="wish-desc">Пусть радость живёт в твоём сердце каждый день</div>
+    </div>
+    <div class="wish-card">
+      <span class="wish-icon">✨</span>
+      <div class="wish-title">Удача</div>
+      <div class="wish-desc">Пусть всё задуманное сбывается с лёгкостью</div>
+    </div>
+    <div class="wish-card">
+      <span class="wish-icon">🌸</span>
+      <div class="wish-title">Любовь</div>
+      <div class="wish-desc">Пусть любовь окружает тебя со всех сторон</div>
+    </div>
+    <div class="wish-card">
+      <span class="wish-icon">🌟</span>
+      <div class="wish-title">Здоровье</div>
+      <div class="wish-desc">Пусть сил и энергии хватает на всё и всех</div>
+    </div>
+  </div>
+
+  <!-- Signature -->
+  <div class="signature">
+    <div class="signature-text">С любовью, 8 марта 🌹</div>
+    <div class="signature-sub">Специально для тебя, Яна</div>
+  </div>
+
+  <button class="tap-btn" onclick="burstHearts(event)">
+    💝 Отправить поцелуй
+  </button>
+
+</div>
+
+<script>
+// ── FALLING PETALS ──
+const canvas = document.getElementById('petals-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const PETAL_SHAPES = ['🌸','🌺','🌷','💮','✿','❀'];
+const petals = [];
+
+function createPetal() {
+  return {
+    x: Math.random() * canvas.width,
+    y: -30,
+    size: Math.random() * 16 + 10,
+    speed: Math.random() * 1.2 + 0.4,
+    drift: (Math.random() - 0.5) * 0.6,
+    rot: Math.random() * Math.PI * 2,
+    rotSpeed: (Math.random() - 0.5) * 0.04,
+    opacity: Math.random() * 0.5 + 0.3,
+    shape: PETAL_SHAPES[Math.floor(Math.random() * PETAL_SHAPES.length)],
+    sway: Math.random() * 2,
+    swayOffset: Math.random() * Math.PI * 2,
+    t: 0
+  };
+}
+
+for (let i = 0; i < 18; i++) {
+  const p = createPetal();
+  p.y = Math.random() * window.innerHeight;
+  petals.push(p);
+}
+
+function drawPetals(ts) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (petals.length < 22 && Math.random() < 0.04) petals.push(createPetal());
+
+  for (let i = petals.length - 1; i >= 0; i--) {
+    const p = petals[i];
+    p.t += 0.016;
+    p.y += p.speed;
+    p.x += p.drift + Math.sin(p.t * p.sway + p.swayOffset) * 0.5;
+    p.rot += p.rotSpeed;
+
+    ctx.save();
+    ctx.globalAlpha = p.opacity;
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.font = `${p.size}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(p.shape, 0, 0);
+    ctx.restore();
+
+    if (p.y > canvas.height + 40) petals.splice(i, 1);
+  }
+  requestAnimationFrame(drawPetals);
+}
+requestAnimationFrame(drawPetals);
+
+// ── HEARTS BURST ──
+function burstHearts(e) {
+  const btn = e.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+
+  const container = document.createElement('div');
+  container.className = 'hearts';
+  container.style.left = cx + 'px';
+  container.style.top = cy + 'px';
+  document.body.appendChild(container);
+
+  const HEARTS = ['💕','💖','💗','💝','💘','🌸','✨'];
+  for (let i = 0; i < 14; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-particle';
+    h.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
+    const angle = (Math.random() * 360) * Math.PI / 180;
+    const dist = Math.random() * 80 + 30;
+    h.style.left = (Math.cos(angle) * dist) + 'px';
+    h.style.top = (Math.sin(angle) * dist) + 'px';
+    h.style.animationDelay = (Math.random() * 0.4) + 's';
+    h.style.fontSize = (Math.random() * 14 + 14) + 'px';
+    container.appendChild(h);
+  }
+
+  setTimeout(() => container.remove(), 2500);
+
+  // Bounce the bouquet
+  const bouquet = document.querySelector('.bouquet-wrap');
+  bouquet.style.animation = 'none';
+  bouquet.offsetHeight;
+  bouquet.style.animation = 'popIn 0.6s cubic-bezier(.34,1.56,.64,1) forwards';
+}
+</script>
+
+</body>
+</html>
